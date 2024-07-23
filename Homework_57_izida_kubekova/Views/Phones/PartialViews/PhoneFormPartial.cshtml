@@ -1,0 +1,41 @@
+﻿@model AddAndEditViewModel
+
+<div class="row align-items-start justify-content-center mb-3">
+    <label for="Name" class="col-sm-10 col-form-label">Название</label>
+    <div class="col-sm-10">
+        <span asp-validation-for="@Model.Phone.Name" class="warning-text text-center mb-3"></span>
+        <input asp-for="@Model.Phone.Name" type="text" class="form-control" id="Name">
+    </div>
+</div>
+<div class="row align-items-start justify-content-center mb-3">
+    <label for="BrandId" class="col-sm-10 col-form-label">Производитель</label>
+    <div class="col-sm-10">
+        <span asp-validation-for="@Model.Phone.BrandId" class="warning-text text-center mb-3"></span>
+        <select asp-for="@Model.Phone.BrandId" class="form-control" aria-label="Default select example" id="BrandId">
+            <option selected></option>
+            @foreach (var brand in Model.Brands)
+            {
+                <option value="@brand.Id">@brand.Name</option>
+            }
+        </select>
+    </div>
+</div>
+<div class="row align-items-start justify-content-center mb-3">
+    <label for="Description" class="col-sm-10 col-form-label">Описание</label>
+    <div class="col-sm-10">
+        <input asp-for="@Model.Phone.Description" type="text" class="form-control" id="Description">
+    </div>
+</div>
+<div class="row align-items-start justify-content-center mb-3">
+    <label for="Price" class="col-sm-10 col-form-label">Цена в USD</label>
+    <div class="col-sm-10">
+        <span asp-validation-for="@Model.Phone.Price" class="warning-text text-center mb-3"></span>
+        <input asp-for="@Model.Phone.Price" type="text" class="form-control" id="Price">
+    </div>
+</div>
+<div class="row align-items-start justify-content-center mb-3">
+    <label for="ImagePath" class="col-sm-10 col-form-label">URL фотографии</label>
+    <div class="col-sm-10">
+        <input asp-for="@Model.Phone.ImagePath" type="text" class="form-control" id="ImagePath">
+    </div>
+</div>

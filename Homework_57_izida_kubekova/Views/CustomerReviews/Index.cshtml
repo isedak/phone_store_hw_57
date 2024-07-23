@@ -1,0 +1,52 @@
+﻿@model List<CustomerReview>
+
+@{
+    ViewBag.Title = "Отзывы";
+    Layout = "_Layout";
+}
+
+<div class="container pt-5">
+    <div class="custom-container">
+        @if (Model.Count == 0)
+        {
+            <h2 class="text-center mb-3">Список пуст</h2>
+        }
+        else
+        {
+            <h2 class="text-center mb-3">Все отзывы</h2>
+            <div class="col-sm-12">
+                @foreach (var review in Model)
+                {
+                    <div class="card mb-2">
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item">
+                                    <h5 class="card-title">Отзыв о <span class="font-weight-bold">@review.Phone.Name</span></h5>
+                                    <h5 class="card-title font-weight-bold">От: @review.User.Name</h5>
+                                </li>
+                                <li class="list-group-item">
+                                    Дата <span class="font-weight-bold">@review.Date</span>
+                                </li>
+                                <li class="list-group-item">
+                                    Оценка: <span class="font-weight-bold">@review.Rate</span>
+                                </li>
+                                <li class="list-group-item ">
+                                    <h6>@review.Review</h6>
+                                </li>
+                                <li class="list-group-item">
+                                    <a asp-action="Details" asp-controller="Phones" asp-route-id="@review.PhoneId" class="card-link">На страницу телефона</a>
+                                </li>
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                                {
+                                    <li class="list-group-item">
+                                        <a asp-action="Delete" asp-route-id="@review.Id" class="card-link">Удалить отзыв</a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,63 @@
+﻿@model List<Brand>
+
+@{
+    ViewBag.Title = "Все бренды";
+    Layout = "_Layout";
+}
+
+<div class="container pt-5">
+    <div class="custom-container">
+        @if (Model.Count == 0)
+        {
+            <h2 class="text-center mb-3">Список пуст</h2>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+            {
+                <div class="py-5 mx-auto text-center">
+                    <a class="btn btn-primary" asp-action="Add" asp-controller="Brands">Добавить бренд</a>
+                </div>
+            }
+        }
+        else
+        {
+            <h2 class="text-center mb-3">Производители</h2>
+            <h6 class="warning-text text-center">@ViewBag.BrandDeletionError</h6>
+            <div class="row row-cols-1 justify-content-center row-cols-md-3 g-4">
+                @foreach (var brand in Model)
+                {
+                    <div class="col-md-4-custom mb-3">
+                        <div class="card">
+                            <div class="card-body pb-0">
+                                <h4 class="card-title text-center font-weight-bold">@brand.Name</h4>
+                                <ul class="list-group list-group-flush text-center">
+                                    <li class="list-group-item">
+                                        <h6>Дата основания:</h6>
+                                        <h5 class="font-weight-bold">@brand.DateOfFoundation.ToLongDateString()</h5>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h6>Email: <span class="font-weight-bold">@brand.Email </span></h6>
+                                    </li>
+                                </ul>
+                            </div>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                            {
+                                <div class="card-body text-center pb-0">
+                                    <div class="btn-group w-100">
+                                        <form asp-action="Delete" asp-route-id="@brand.Id" method="POST">
+                                            <button type="submit" class="btn btn-secondary">Удалить</button>
+                                        </form>
+                                        <a asp-action="Edit" asp-controller="Brands" asp-route-id="@brand.Id" class="btn btn-success">Редактировать</a>
+                                    </div>
+                                </div>
+                            }
+                            <div class="card-body text-center pb-4">
+                                <form asp-action="RedirectToBrand" asp-route-id="@brand.Id" method="POST">
+                                    <button type="submit" class="btn btn-primary w-100">Официальный сайт</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

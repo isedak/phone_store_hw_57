@@ -1,0 +1,72 @@
+﻿@model EditUserViewModel
+
+@{
+    ViewBag.Title = "Отредактировать данные пользователя";
+    Layout = "_Layout";
+}
+
+<div class="container pt-5">
+    <div class="custom-container">
+        <h2 class="text-center mb-3">Отредактируйте поля</h2>
+        <div class="row align-items-start justify-content-center">
+            <div class="card bg-white mb-1">
+                <div class="card-body">
+                    <form asp-action="Edit" method="post">
+                        <div class="row align-items-start justify-content-center mb-3">
+                            <label for="Email" class="col-sm-10 col-form-label">Email</label>
+                            <div class="col-sm-10">
+                                <input asp-for="Email" disabled type="text" class="form-control" value="@Model.Email" id="Email">
+                            </div>
+                        </div>
+                        <div class="row align-items-start justify-content-center mb-3">
+                            <label for="Name" class="col-sm-10 col-form-label">Имя</label>
+                            <div class="col-sm-10">
+                                <span asp-validation-for="Name" class="warning-text text-center mb-3"></span>
+                                <input asp-for="Name" type="text" class="form-control" id="Name">
+                            </div>
+                        </div>
+                        <div class="row align-items-start justify-content-center mb-3">
+                            <label asp-for="Password" class="col-sm-10 col-form-label"></label>
+                            <div class="col-sm-10">
+                                <span asp-validation-for="Password" class="warning-text text-center mb-3"></span>
+                                <input asp-for="Password" class="form-control" id="Password">
+                            </div>
+                        </div>
+                        <div class="row align-items-start justify-content-center mb-3">
+                            <label asp-for="ConfirmPassword" class="col-sm-10 col-form-label">Повторите пароль</label>
+                            <div class="col-sm-10">
+                                <span asp-validation-for="ConfirmPassword" class="warning-text text-center mb-3"></span>
+                                <input asp-for="ConfirmPassword" class="form-control" id="ConfirmPassword">
+                            </div>
+                        </div>
+                        <div class="row align-items-start justify-content-center mb-3">
+                            <label for="RoleId" class="col-sm-10 col-form-label">Роль</label>
+                            <div class="col-sm-10">
+                                <span asp-validation-for="RoleId" class="warning-text text-center mb-3"></span>
+                                <select asp-for="RoleId" class="form-control" aria-label="Default select example" id="RoleId">
+                                    <option selected></option>
+                                    @foreach (var role in Model.Roles)
+                                    {
+                                        <option value="@role.Id">@role.Name</option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row align-items-start justify-content-center mb-3">
+                            <button type="submit" class="btn btn-primary">Изменить</button>
+                        </div>
+                        <input type="hidden" asp-for="@Model.Id">
+                        <input type="hidden" asp-for="@Model.Email">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

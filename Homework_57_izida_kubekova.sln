@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Homework_57_izida_kubekova", "Homework_57_izida_kubekova\Homework_57_izida_kubekova.csproj", "{4F8C6B92-B586-428B-B93A-DF3EE637ED73}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4F8C6B92-B586-428B-B93A-DF3EE637ED73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F8C6B92-B586-428B-B93A-DF3EE637ED73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F8C6B92-B586-428B-B93A-DF3EE637ED73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F8C6B92-B586-428B-B93A-DF3EE637ED73}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

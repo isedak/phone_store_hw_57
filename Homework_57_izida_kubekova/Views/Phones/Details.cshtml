@@ -1,0 +1,138 @@
+﻿@model DetailsViewModel
+
+@{
+    ViewBag.Title = "Подробная информация";
+    Layout = "_Layout";
+}
+
+<div class="container pt-5">
+    <div class="custom-container">
+        <div class="col-sm-12">
+            <div class="card bg-white py-2">
+                <div class="card-body">
+                    @if (@Model.Phone.ImagePath == "img/no-img.png")
+                    {
+                        <div class="card-img-top-big mx-auto mb-4">
+                            <img src="~/img/no-img.png" class="img-fluid" alt="photo">
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="card-img-top-big mx-auto mb-4">
+                            <img src="@Model.Phone.ImagePath" class="img-fluid" alt="photo">
+                        </div>
+                    }
+                </div>
+                <div class="card-body">
+                    <h2 class="text-center font-weight-bold">@Model.Phone.Name</h2>
+                </div>
+                <div class="card-body">
+                    <h3 class="text-center">Рейтинг: @Model.Phone.AverageRate</h3>
+                </div>
+                <div class="card-body text-center">
+                    <h6 class="font-weight-bold">Производитель: <span class="font-weight-lighter">@Model.Phone.Brand.Name</span></h6>
+                </div>
+                <div class="card-body text-center">
+                    <h6 class="font-weight-bold">Описание:</h6>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title text-center">@Model.Phone.Description</h5>
+                </div>
+                <div class="card-body text-center">
+                    <h6 class="font-weight-bold">Цена:</h6>
+                </div>
+                <div class="card-body text-center">
+                    <h5 class="card-title text-center font-weight-bold">@Model.Phone.Price USD</h5>
+                    @{
+                        foreach (var currency in (List<Currency>) @ViewData["Currencies"])
+                        {
+                            <h5 class="card-title text-center font-weight-bold">@(Math.Round((@Model.Phone.Price * currency.CurrencyRate), 2)) @currency.CurrencyCode</h5>
+                        }
+                    }
+                </div>
+                <div class="card-body text-center">
+                    <a asp-action="Download" asp-route-id="@Model.Phone.Id" class="card-link">Скачать файл с характеристиками</a>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col col-md-6 col-sm-12">
+                        <div class="card-body text-center pb-5">
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                            {
+                                
+                            <div class="text-center mb-3">
+                                <form asp-action="Delete" asp-route-id="@Model.Phone.Id" method="POST">
+                                    <button type="submit" class="btn btn-secondary w-100">Удалить</button>
+                                </form>
+                            </div>
+
+                                <div class="btn-group w-100">
+                                    <form asp-action="RedirectToBrand" asp-controller="Brands" asp-route-id="@Model.Phone.Brand.Id" method="POST">
+                                        <button type="submit" class="btn btn-primary">Cайт производителя</button>
+                                    </form>
+                                    <a asp-action="Edit" asp-controller="Phones" asp-route-id="@Model.Phone.Id" class="btn btn-success">Редактировать</a>
+                                </div>
+                            }
+                            else
+                            {
+                                <form asp-action="RedirectToBrand" asp-controller="Brands" asp-route-id="@Model.Phone.Brand.Id" method="POST">
+                                    <button type="submit" class="btn btn-secondary">Cайт производителя</button>
+                                </form>
+                            }
+                        </div>
+                        @if (User.Identity.IsAuthenticated && User.IsInRole("user"))
+                        {
+                            var parms = new Dictionary<string, string>
+                            {
+                                {"phoneId", $"{@Model.Phone.Id}"},
+                                {"userEmail", $"{@User.Identity.Name}"}
+                            };
+
+                            <div class="card-body text-center pb-5">
+                                <div class="btn-group w-100">
+                                    <a class="btn btn-primary" asp-action="Add" asp-controller="CustomerReviews" asp-all-route-data="parms">Оставить отзыв</a>
+                                    <a class="btn btn-success" asp-action="Add" asp-controller="Orders" asp-all-route-data="parms">Заказать</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="border-top">
+                    <div class="card-body">
+                        <h2 class="text-center mb-1">Отзывы:</h2>
+                    </div>
+                    @if (@Model.CustomerReviews.Count == 0)
+                    {
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-center">Отзывов пока нет</h5>
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var review in @Model.CustomerReviews)
+                        {
+                            <div class="border-top">
+                                <div class="card-body">
+                                    <ul class="list-group list-group-flush">
+                                        <li class="list-group-item">
+                                            <h5 class="card-title text-center">Отзыв о <span class="card-title font-weight-bold">@review.Phone.Name</span></h5>
+                                            <h5>От: <span class="card-title font-weight-bold text-center">@review.User.Name</span></h5>
+                                        </li>
+                                        <li class="list-group-item">
+                                            Дата <span class="font-weight-bold">@review.Date</span>
+                                        </li>
+                                        <li class="list-group-item">
+                                            Оценка: <span class="font-weight-bold">@review.Rate</span>
+                                        </li>
+                                        <li class="list-group-item ">
+                                            <h6>@review.Review</h6>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

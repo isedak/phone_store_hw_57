@@ -1,0 +1,87 @@
+﻿@using System.Collections
+@model List<Phone>
+
+@{
+    ViewBag.Title = "title";
+    Layout = "_Layout";
+}
+<img src="img/Promo.png" class="img-fluid w-100" alt="promo-image">
+<div class="container pt-5">
+    <div class="custom-container pb-5">
+        @if (Model.Count == 0)
+        {
+            <h2 class="text-center mb-3">Список пуст</h2>
+            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+            {
+                <div class="py-5 mx-auto text-center">
+                    <a class="btn btn-primary" asp-action="Add" asp-controller="Phones">Добавить смартфон</a>
+                </div>
+            }
+        }
+        else
+        {
+            <h2 class="text-center mb-3">Телефоны</h2>
+            <div class="row row-cols-1 justify-content-between row-cols-md-3 mb-5 g-4">
+                @foreach (var phone in Model)
+                {
+                    <div class="col-md-4-custom mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="card-img-small">
+                                    <img src="@phone.ImagePath" class="img-fluid" alt="photo">
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <h4 class="card-title text-center font-weight-bold">@phone.Name</h4>
+                                <ul class="list-group list-group-flush text-center">
+                                    <li class="list-group-item">
+                                        <h6>Рейтинг покупателей: <span class="font-weight-bold">@phone.AverageRate</span></h6>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h6>Производитель: <span class="font-weight-bold">@phone.Brand.Name </span></h6>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <h6>Цена в USD:</h6>
+                                        <h5 class="font-weight-bold">@phone.Price</h5>
+                                    </li>
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        <li class="list-group-item">
+                                            <a asp-action="Details" asp-route-id="@phone.Id" class="card-link">Подробнее</a>
+                                        </li>
+                                        <li class="list-group-item">
+                                            <a asp-action="Download" asp-route-id="@phone.Id" class="card-link">Скачать файл с характеристиками</a>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("admin"))
+                            {
+                                <div class="card-body text-center">
+                                    <div class="btn-group w-100">
+                                        <form asp-action="Delete" asp-route-id="@phone.Id" method="POST">
+                                            <button type="submit" class="btn btn-secondary">Удалить</button>
+                                        </form>
+                                        <a asp-action="Edit" asp-controller="Phones" asp-route-id="@phone.Id" class="btn btn-primary">Редактировать</a>
+                                    </div>
+                                </div>
+                            }
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("user"))
+                            {
+                                var parms = new Dictionary<string, string>
+                                {
+                                    {"phoneId", $"{@phone.Id}"},
+                                    {"userEmail", $"{@User.Identity.Name}"}
+                                };
+                                <div class="card-body text-center pb-5">
+                                    <a asp-action="Add" asp-controller="Orders" asp-all-route-data="parms" class="btn btn-success w-100">Заказать</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+</div>

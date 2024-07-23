@@ -1,0 +1,18 @@
+﻿@model dynamic
+
+@{
+    ViewBag.Title = "Ошибка";
+    Layout = "_Layout";
+}
+
+<div class="container pt-5">
+    <div class="custom-container">
+        <h6 class="warning-text text-center mb-4">@ViewBag.Message</h6>
+        @if (@ViewBag.Message == "Список брендов пуст, внесите хотя бы один")
+        {
+            <div class="py-5 mx-auto text-center">
+                <a class="btn btn-primary" asp-action="Add" asp-controller="Brands">Добавить бренд</a>
+            </div>
+        }
+    </div>
+</div>

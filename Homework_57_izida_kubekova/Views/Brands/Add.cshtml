@@ -1,0 +1,57 @@
+﻿@model Brand
+
+@{
+    ViewBag.Title = "Добавить бренд";
+    Layout = "_Layout";
+}
+
+<div class="container pt-5">
+    <div class="custom-container">
+        <h2 class="text-center mb-3">Заполните поля</h2>
+        <div class="row align-items-start justify-content-center">
+            <div class="card bg-white mb-1">
+                <div class="card-body">
+                    <form asp-action="Add" method="post">
+                        <div class="row align-items-start justify-content-center mb-3">
+                            <label for="Name" class="col-sm-10 col-form-label">Название</label>
+                            <div class="col-sm-10">
+                                <span asp-validation-for="Name" class="warning-text text-center mb-3"></span>
+                                <input asp-for="Name" type="text" class="form-control" id="Name">
+                            </div>
+                        </div>
+                        <div class="row align-items-start justify-content-center mb-3">
+                            <label for="PagePath" class="col-sm-10 col-form-label">Адрес официального сайта</label>
+                            <div class="col-sm-10">
+                                <span asp-validation-for="PagePath" class="warning-text text-center mb-3"></span>
+                                <input asp-for="PagePath" type="text" class="form-control" id="PagePath">
+                            </div>
+                        </div>
+                        <div class="row align-items-start justify-content-center mb-3">
+                            <label for="Email" class="col-sm-10 col-form-label">Электронная почта</label>
+                            <div class="col-sm-10">
+                                <span asp-validation-for="Email" class="warning-text text-center mb-3"></span>
+                                <input asp-for="Email" type="text" class="form-control" id="Email">
+                            </div>
+                        </div>
+                        <div class="row align-items-start justify-content-center mb-3">
+                            <label for="DateOfFoundation" class="col-sm-10 col-form-label">Дата основания компании (максимум 100 лет назад)</label>
+                            <div class="col-sm-10">
+                                <span asp-validation-for="DateOfFoundation" class="warning-text text-center mb-3"></span>
+                                <input asp-for="DateOfFoundation" type="text" placeholder="ГГГГ-ММ-ДД" class="form-control" id="DateOfFoundation">
+                            </div>
+                        </div>
+                        <div class="row align-items-start justify-content-center mb-3">
+                            <button type="submit" class="btn btn-primary">Подтвердить</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

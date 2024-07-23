@@ -1,0 +1,20 @@
+﻿@model Brand
+
+@{
+    ViewBag.Title = "Подтверждение удаления";
+    Layout = "_Layout";
+}
+
+<div class="container pt-5">
+    <div class="custom-container">
+        <h6 class="warning-text text-center mb-4">Вы действительно хотите удалить бренд @Model.Name?</h6>
+        <form asp-action="ConfirmDelete" asp-controller="Brands" asp-route-id="@Model.Id" method="post">
+            <div class="py-5 mx-auto">
+                <div class="btn-group-lg text-center">
+                    <input type="submit" value="Да" class="btn btn-secondary">
+                    <a class="btn btn-primary" asp-action="Index" asp-controller="Brands">Нет</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
